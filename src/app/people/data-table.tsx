@@ -34,6 +34,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import React from 'react';
+import { downloadToExcel } from '@/lib/xlsx';
 
 // Esta interface nos dice que necesitamos 2 datos, las columnas y la data
 interface DataTableProps<TData, TValue> {
@@ -54,6 +55,8 @@ function PeopleDataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
 
+  const [rowSelection, setRowSelection] = React.useState({});
+
   const table = useReactTable({
     data,
     columns,
@@ -64,10 +67,12 @@ function PeopleDataTable<TData, TValue>({
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: setRowSelection,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
+      rowSelection,
     },
   });
 
@@ -86,10 +91,16 @@ function PeopleDataTable<TData, TValue>({
           className="max-w-sm"
         />
 
+        {/* Export to Excel Button */}
+
+        <Button size="sm" onClick={downloadToExcel} className="ml-auto mr-4">
+          Export to Excel
+        </Button>
+
         {/* Column Visibility Dropdown Menu */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
+            <Button variant="outline" className="mml-auto">
               Columns
             </Button>
           </DropdownMenuTrigger>
@@ -184,6 +195,17 @@ function PeopleDataTable<TData, TValue>({
         >
           Next
         </Button>
+      </div>
+
+      {/* Cantidad de filas seleccionadas */}
+      {/* <div className="flex-1 text-sm text-muted-foreground"> */}
+      <div
+        className={`flex-1 text-sm text-muted-foreground ${
+          table.getFilteredSelectedRowModel().rows.length > 0 ? '' : 'hidden'
+        }`}
+      >
+        {table.getFilteredSelectedRowModel().rows.length} of{' '}
+        {table.getFilteredRowModel().rows.length} row(s) selected.
       </div>
     </div>
   );

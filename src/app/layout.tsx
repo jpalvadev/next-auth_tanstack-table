@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import AuthProvider from './api/auth/AuthProvider';
+import { ThemeProvider } from '@/components/theme-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,8 +21,10 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider>
-          <Navbar />
-          {children}
+          <ThemeProvider attribute="class" defaultTheme="system">
+            <Navbar />
+            {children}
+          </ThemeProvider>
         </AuthProvider>
       </body>
     </html>

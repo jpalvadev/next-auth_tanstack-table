@@ -15,7 +15,31 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
+import { Checkbox } from '@/components/ui/checkbox';
+
 export const columns: ColumnDef<Person>[] = [
+  {
+    id: 'select',
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && 'indeterminate')
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     header: 'Person ID', // Encabezado de la columna
     accessorKey: 'id', // tiene que matchear la estructura del dato a mostrar => data.id
@@ -93,5 +117,6 @@ export const columns: ColumnDef<Person>[] = [
         </DropdownMenu>
       );
     },
+    enableHiding: false, // deshabilitamos el hide
   },
 ];

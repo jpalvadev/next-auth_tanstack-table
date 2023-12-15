@@ -3,13 +3,15 @@
 import { signIn, signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import React from 'react';
+
 import { Button } from './ui/button';
+import ThemeToggle from './ThemeToggle';
 
 const Navbar = () => {
   const { status, data: session } = useSession();
 
   return (
-    <nav className="bg-primary text-primary-foreground flex justify-between items-center text-slate-100 px-8 py-4">
+    <nav className="bg-primary text-primary-foreground flex justify-between items-center px-8 py-4 sticky top-0">
       <Link href="/">
         <h1>NextGoogle</h1>
       </Link>
@@ -33,6 +35,7 @@ const Navbar = () => {
             </Button>
           </>
         )}
+        <ThemeToggle />
       </div>
     </nav>
   );

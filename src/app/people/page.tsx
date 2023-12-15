@@ -6,7 +6,11 @@ import { people } from '@/lib/people';
 type Props = {};
 
 const PeoplePage = (props: Props) => {
-  return <PeopleDataTable columns={columns} data={people} />;
+  return (
+    <div className="container py-10">
+      <PeopleDataTable columns={columns} data={people} />
+    </div>
+  );
 };
 
 export default PeoplePage;
